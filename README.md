@@ -36,7 +36,7 @@ Media hash values are generated during upload or automatically through a cronjob
 
 WPCLI
 -----
-For the unpatient (like me) there is a wp-cli command for initial hash generation ...
+For the impatient (like me) there is a wp-cli command for initial hash generation ...
 
 ```sh
 $ wp unique-media-hash
