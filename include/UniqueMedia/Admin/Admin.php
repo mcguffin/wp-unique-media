@@ -17,6 +17,9 @@ use UniqueMedia\Cron;
 
 class Admin extends Core\PluginComponent {
 
+	public const WARNING = 'um-state-warning';
+	public const ERROR = 'um-state-error';
+
 	private $core;
 
 	private $size_meta_key = 'mdd_size';
@@ -121,11 +124,11 @@ class Admin extends Core\PluginComponent {
 	public function hash_attachment( $attachment_id ) {
 		$wp_error = new \WP_Error();
 		if ( ! $file = get_attached_file( $attachment_id ) ) {
-			$wp_error->add( $this->core->get_slug() . '-error', sprintf( __('No file attached to %d','wp-unique-media'), $attachment_id ) );
+			$wp_error->add( self::ERROR, sprintf( __('No file attached to %d','wp-unique-media'), $attachment_id ) );
 			return $wp_error;
 		}
 		if ( ! file_exists( $file ) ) {
-			$wp_error->add( $this->core->get_slug() . '-error', sprintf( __('File %s of attachment %d does not exist','wp-unique-media'), $attachment_id, $file ) );
+			$wp_error->add( self::ERROR, sprintf( __('File %s of attachment %d does not exist','wp-unique-media'), $file, $attachment_id ) );
 			return $wp_error;
 		}
 
@@ -139,11 +142,21 @@ class Admin extends Core\PluginComponent {
 		if ( $prev_hash !== $hash || $prev_size !== $size ) {
 
 			if ( $prev_hash || $prev_size ) {
-				$wp_error->add( $this->core->get_slug() . '-warning', sprintf( __('Attachment %d already hashed', 'wp-unique-media' ), $attachment_id ) );
+				$wp_error->add(
+					self::WARNING,
+					sprintf(
+						__('Attachment %d hashes differ from previous state. Hash (old:new) (%s:%s); Size (old:new) (%d:%d);', 'wp-unique-media' ),
+						$attachment_id,
+						$prev_hash, $hash,
+						$prev_size, $size
+					)
+				);
 			}
 
 			update_post_meta( $attachment_id, $this->hash_meta_key, $hash );
 			update_post_meta( $attachment_id, $this->size_meta_key, $size );
+		} else {
+			$wp_error->add( self::WARNING, sprintf( __('Attachment %d already hashed', 'wp-unique-media' ), $attachment_id ) );
 		}
 
 		return array(

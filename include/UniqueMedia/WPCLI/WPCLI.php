@@ -19,8 +19,8 @@ class WPCLI extends Core\Singleton {
 	 *	@inheritdoc
 	 */
 	protected function __construct() {
-		$command = 'Commands\HashMedia';return;
-		\WP_CLI::add_command( 'hash_media', array( $command, 'hash_media' ), array(
+		$command = new Commands\HashMedia();
+		\WP_CLI::add_command( 'unique-media-hash', array( $command, 'hash_media' ), array(
 //			'before_invoke'	=> 'a_callable',
 //			'after_invoke'	=> 'another_callable',
 			'shortdesc'		=> 'WP Unique Media commands',
