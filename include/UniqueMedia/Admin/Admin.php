@@ -172,7 +172,7 @@ class Admin extends Core\PluginComponent {
 	/**
 	 *	Hash unhashed attachments
 	 *
-	 *	@param int $time_limit Max execution time for this task in seconds
+	 *	@param null|int $time_limit Max execution time for this task in seconds. Null for no limit
 	 *	@return array array of hash results
 	 */
 	public function hash_attachments( $time_limit = 5 ) {
@@ -181,7 +181,7 @@ class Admin extends Core\PluginComponent {
 		$results = array();
 
 		while ( true ) {
-			if ( ! count( $unhashed ) || ( ( ( time() ) - $t0 ) > $time_limit ) ) {
+			if ( ! count( $unhashed ) || ( ! is_null( $time_limit ) && ( ( ( time() ) - $t0 ) > $time_limit ) )) {
 				break;
 			}
 			$attachment_id = array_pop( $unhashed );
