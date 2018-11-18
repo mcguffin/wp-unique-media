@@ -15,11 +15,10 @@ $(document).ready(function(){
 					// prevent sync
 					wp.media.model.Attachment.prototype.sync = function(){};
 					mediaModel.destroy();
-console.log(mediaModel,id)
 					wp.media.model.Attachment.prototype.sync = prevSync;
 
 					// select attachment
-					wp.media.frame.state().get('selection').add( wp.media.attachment( id ) );
+					!! wp.media.frame && wp.media.frame.state().get('selection').add( wp.media.attachment( id ) );
 				},50);
 
 				// add message ... Well ... for now we just shut up.
