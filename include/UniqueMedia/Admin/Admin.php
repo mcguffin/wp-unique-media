@@ -74,7 +74,7 @@ class Admin extends Core\PluginComponent {
 					// stolen from wp-admin/async-upload.php
 					if ( ! $attachment = wp_prepare_attachment_for_js( $this->attachment_id ) )
 						wp_die();
-					$attachment['duplicated_upload'] = true;
+					$attachment['duplicate_upload'] = true;
 					echo wp_json_encode( array(
 						'success' => true,
 						'data'    => $attachment,
@@ -224,10 +224,7 @@ class Admin extends Core\PluginComponent {
 
 		$unhashed = $this->get_unhashed_attachments();
 		$job->start();
-		if ( count( $unhashed ) ) {
-		} else {
-//			$job->stop();
-		}
+
 	}
 
 

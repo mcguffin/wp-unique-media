@@ -47,3 +47,9 @@ $ wp unique-media-hash
 ```sh
 $ wp unique-media-hash --attachment_id=123
 ```
+
+ToDo:
+-----
+ - [ ] Test with [polylang](https://de.wordpress.org/plugins/polylang/) translate media option enabled
+ - [ ] Test with non-js uploader
+ - [ ] Test with [enable media replace](https://de.wordpress.org/plugins/enable-media-replace/)
