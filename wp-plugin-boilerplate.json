@@ -1,0 +1,25 @@
+{
+  "modules": {
+    "admin": {
+      "": {
+        "css": true,
+        "js": true
+      }
+    },
+    "autoupdate": {},
+    "compat": {},
+    "cron": {},
+    "git": {},
+    "gulp": {},
+    "wpcli": {
+      "hash_media": {}
+    }
+  },
+  "plugin_author": "J\u00f6rn Lund",
+  "plugin_author_uri": "",
+  "plugin_name": "WP Unique Media",
+  "plugin_namespace": "UniqueMedia",
+  "plugin_slug": "unique_media",
+  "this_year": 2018,
+  "wp_plugin_slug": "wp-unique-media"
+}

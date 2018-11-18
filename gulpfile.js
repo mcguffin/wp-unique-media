@@ -28,8 +28,8 @@ function do_js( src ) {
 	return gulp.src( './src/js/' + src + '.js' )
 		.pipe( sourcemaps.init() )
 		.pipe( gulp.dest( './js/' + dir ) )
-		.pipe( uglify().on('error', gulputil.log ) )
-		.pipe( rename( { suffix: '.min' } ) )
+		.pipe( uglify() )
+		.pipe( rename( { suffix: '.dev' } ) )
 		.pipe( sourcemaps.write() )
 		.pipe( gulp.dest( './js/' + dir ) );
 }
@@ -37,10 +37,10 @@ function do_js( src ) {
 function concat_js( src, dest ) {
 	return gulp.src( src )
 		.pipe( sourcemaps.init() )
+		.pipe( uglify() )
 		.pipe( concat( dest ) )
 		.pipe( gulp.dest( './js/' ) )
-		.pipe( uglify().on('error', gulputil.log ) )
-		.pipe( rename( { suffix: '.min' } ) )
+		.pipe( rename( { suffix: '.dev' } ) )
 		.pipe( sourcemaps.write() )
 		.pipe( gulp.dest( './js/' ) );
 
@@ -52,26 +52,27 @@ function concat_js( src, dest ) {
 // scss admin tasks
 
 // scss
-gulp.task('scss', gulp.parallel(
-	
-	
-));
+// gulp.task('scss', gulp.parallel(
+// ));
 
 // admin js
 
+gulp.task( 'js:admin', function(){
+	return do_js( 'admin/wp-media' );
+} );
 
 gulp.task( 'js:frontend', function(){
 	return concat_js( [
 	], 'frontend.js');
 } );
 
-gulp.task('js', gulp.parallel( 'js:frontend', ) );
+gulp.task('js', gulp.parallel( 'js:admin' ) );
 
-gulp.task('build', gulp.parallel('scss','js') );
+gulp.task('build', gulp.parallel('js') );
 
 gulp.task('watch', function() {
 	// place code for your default task here
-	gulp.watch('./src/scss/**/*.scss',gulp.parallel( 'scss' ));
+	//gulp.watch('./src/scss/**/*.scss',gulp.parallel( 'scss' ));
 	gulp.watch('./src/js/**/*.js',gulp.parallel( 'js' ) );
 });
 gulp.task('default', gulp.parallel('build','watch'));

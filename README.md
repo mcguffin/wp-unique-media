@@ -23,3 +23,8 @@ Installation
  - $ `cd wp-unique-media`
  - $ `npm install`
  - $ `gulp`
+
+
+ToDo:
+-----
+ - [ ] WPMU Activate

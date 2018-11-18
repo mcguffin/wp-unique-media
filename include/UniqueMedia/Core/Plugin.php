@@ -25,8 +25,9 @@ class Plugin extends PluginComponent {
 
 	/** @var string plugin components which might need upgrade */
 	private static $components = array(
-		'UniqueMedia\Compat\ACF',
-		'UniqueMedia\Compat\Polylang',
+		'UniqueMedia\Admin\Admin',
+		'UniqueMedia\Cron\Cron',
+//		'UniqueMedia\Compat\RegenerateThumbnails',
 		'UniqueMedia\Compat\WPMU',
 	);
 
