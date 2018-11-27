@@ -43,9 +43,63 @@ class Admin extends Core\PluginComponent {
 
 		add_filter( 'wp_handle_upload_prefilter', array( $this, 'upload_prefilter' ) );
 
+		add_filter( 'attachment_fields_to_edit', array($this,'attachment_fields_to_edit'), 10, 2 );
+
 		$this->handle_cron();
 
 	}
+
+	/**
+	 *	Show existing duplicates
+	 *
+	 *	@filter attachment_fields_to_edit
+	 */
+	public function attachment_fields_to_edit( $fields, $attachment ) {
+		$dupes = $this->get_duplicates($attachment);
+		if ( empty( $dupes ) ) {
+			return $fields;
+		}
+		$html = '<ul>';
+		foreach ( $dupes as $post_id ) {
+
+			$html .= sprintf( '<li><a data-id="%d" href="%s">%s</a></li>', $post_id, get_edit_post_link( $post_id ), get_the_title( $post_id ) );
+		}
+		$html .= '</ul>';
+		$fields[ 'wpum-duplicates' ] = array(
+	       		'label' => __('Duplicates','wp-unique-media'),
+	   			'input' => 'html',
+	   			'html' => $html,
+			);
+		return $fields;
+	}
+
+	/**
+	 *	Get duplicates of an attachment
+	 *
+	 *	@param int|WP_Post $attachment
+	 *	@return array with post_ids
+	 */
+	private function get_duplicates( $attachment ) {
+
+		global $wpdb;
+
+		if ( is_numeric( $attachment ) ) {
+			$attachment = get_post( $attachment );
+		}
+
+		$hash = get_post_meta( $attachment->ID, $this->hash_meta_key, true );
+
+		if ( ! $hash ) {
+			return array();
+		}
+
+		$sql = $wpdb->prepare( "SELECT post_id FROM $wpdb->postmeta WHERE post_id != %d AND meta_key = %s AND meta_value = %s",
+			$attachment->ID, $this->hash_meta_key, $hash
+		);
+		return $wpdb->get_col( $sql );
+
+	}
+
 
 	/**
 	 *	@filter wp_handle_upload_prefilter
