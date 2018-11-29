@@ -1,6 +1,10 @@
 WP Unique Media Changes
 =======================
 
+0.0.5
+-----
+ - Introduce constant `WPUM_DEBUG` (enables cronjob logging)
+
 0.0.4
 -----
  - Show Duplicates in WP-Admin

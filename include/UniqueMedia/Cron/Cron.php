@@ -205,7 +205,7 @@ class Cron extends Core\PluginComponent {
 		if ( ! is_string( $text ) ) {
 			return;
 		}
-		if ( defined('WP_DEBUG') && WP_DEBUG ) {
+		if ( defined('WPUM_DEBUG') && WPUM_DEBUG ) {
 			$str = sprintf( '%s: %s', get_class( $this ), $text );
 			error_log( $str );
 		}
