@@ -5,7 +5,7 @@ Plugin Name: WP Unique Media
 Plugin URI: http://wordpress.org/
 Description: Enter description here.
 Author: Jörn Lund
-Version: 0.0.4
+Version: 0.0.5
 Author URI: https://github.com/mcguffin
 License: GPL3
 Github Repository: mcguffin/wp-unique-media
