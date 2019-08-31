@@ -47,11 +47,11 @@ class HashMedia extends \WP_CLI_Command {
 			if ( $error->get_error_code() === Admin\Admin::WARNING ) {
 				\WP_CLI::warning( $error->get_error_message() );
 			}
-			\WP_CLI::line( sprintf(__('Processed ID:<%d> Hash:<%s> '), $attachment_id, $hash ) );
+			\WP_CLI::line( sprintf('Processed ID:<%d> Hash:<%s>', $attachment_id, $hash ) );
 			$total++;
 
 		}
-		\WP_CLI::success( sprintf( __( "%d attachments processed.", 'wp-unique-media' ), $total ) );
+		\WP_CLI::success( sprintf(  "%d attachments processed.", $total ) );
 	}
 
 }
