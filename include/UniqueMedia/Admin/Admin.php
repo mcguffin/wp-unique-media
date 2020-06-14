@@ -45,9 +45,22 @@ class Admin extends Core\PluginComponent {
 		add_filter( 'wp_handle_sideload_prefilter', array( $this, 'upload_prefilter' ) ); // #6
 
 		add_filter( 'attachment_fields_to_edit', array($this,'attachment_fields_to_edit'), 10, 2 );
-
+		add_filter( 'update_attached_file', [ $this, 'update_attached_file' ], 10, 2 );
 		$this->handle_cron();
 
+	}
+
+	/**
+	 *	@filter update_attached_file
+	 */
+	public function update_attached_file( $file, $attachment_id ) {
+		if ( $file ) {
+			$size = filesize( $file );
+			$hash = md5_file( $file );
+			update_post_meta( $attachment_id, $this->hash_meta_key, $hash );
+			update_post_meta( $attachment_id, $this->size_meta_key, $size );
+		}
+		return $file;
 	}
 
 	/**
@@ -91,7 +104,7 @@ class Admin extends Core\PluginComponent {
 		$hash = get_post_meta( $attachment->ID, $this->hash_meta_key, true );
 
 		if ( ! $hash ) {
-			return array();
+			return [];
 		}
 
 		return $wpdb->get_col( $wpdb->prepare( "SELECT post_id FROM $wpdb->postmeta WHERE post_id != %d AND meta_key = %s AND meta_value = %s",
@@ -100,12 +113,29 @@ class Admin extends Core\PluginComponent {
 
 	}
 
+	/**
+	 *	@param string $hash File hash
+	 *	@return array
+	 */
+	public function get_attachments_by_hash( $hash ) {
+
+		global $wpdb;
+
+		return $wpdb->get_col( $wpdb->prepare( "SELECT post_id FROM $wpdb->postmeta WHERE meta_key = %s AND meta_value = %s",
+			$this->hash_meta_key, $hash
+		) );
+
+	}
 
 	/**
 	 *	@filter wp_handle_upload_prefilter
 	 */
 	public function upload_prefilter( $file ) {
 		global $wpdb;
+
+		if ( empty( $file['tmp_name'] ) ) {
+			return $file;
+		}
 
 		$this->last_size = $file['size'];
 		$this->last_hash = md5_file( $file['tmp_name'] );
@@ -148,7 +178,8 @@ class Admin extends Core\PluginComponent {
 					}
 					
 					/* there is no way pass html in error message :( */
-					$file['error'] = sprintf( __( 'Duplicate file exist: ID %d - "%s"', 'wp-unique-media' ), $this->attachment_id, basename( $image ) );
+					/* translators: 1 Attachment ID, 2: filename */
+					$file['error'] = sprintf( __( 'Duplicate file exists: ID %1$d - "%2$s"', 'wp-unique-media' ), $this->attachment_id, basename( $image ) );
 				}
 			}
 		} else {
@@ -189,8 +220,20 @@ class Admin extends Core\PluginComponent {
 	 *	@return WP_Error|array array with keys size, hash, wp_error on success, wp_error
 	 */
 	public function hash_attachment( $attachment_id ) {
+
 		$wp_error = new \WP_Error();
-		if ( ! $file = get_attached_file( $attachment_id ) ) {
+
+		$file = false;
+
+		if ( function_exists( 'wp_get_original_image_path' ) ) {
+			// WP >= 5.3
+			$file = wp_get_original_image_path( $attachment_id );			
+		} else {
+			// WP < 5.3
+			$file = get_attached_file( $attachment_id );
+		}
+
+		if ( ! $file ) {
 			/* translators: %d attachment ID */
 			$wp_error->add( self::ERROR, sprintf( __('No file attached to %d','wp-unique-media'), $attachment_id ) );
 			return $wp_error;

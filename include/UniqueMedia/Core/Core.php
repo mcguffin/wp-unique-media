@@ -33,9 +33,11 @@ class Core extends Plugin {
 	 *  @action plugins_loaded
 	 */
 	public function init_compat() {
-		// if ( class_exists( '\RegenerateThumbnails' ) ) {
-		// 	Compat\RegenerateThumbnails::instance();
-		// }
+
+		if ( defined( 'EMR_VERSION' ) ) {
+			Compat\EnableMediaReplace::instance();
+		}
+
 		if ( is_multisite() && function_exists('is_plugin_active_for_network') && is_plugin_active_for_network( $this->get_wp_plugin() ) ) {
 			Compat\WPMU::instance();
 		}
