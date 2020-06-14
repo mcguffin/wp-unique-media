@@ -93,10 +93,9 @@ class Admin extends Core\PluginComponent {
 			return array();
 		}
 
-		$sql = $wpdb->prepare( "SELECT post_id FROM $wpdb->postmeta WHERE post_id != %d AND meta_key = %s AND meta_value = %s",
+		return $wpdb->get_col( $wpdb->prepare( "SELECT post_id FROM $wpdb->postmeta WHERE post_id != %d AND meta_key = %s AND meta_value = %s",
 			$attachment->ID, $this->hash_meta_key, $hash
-		);
-		return $wpdb->get_col( $sql );
+		) );
 
 	}
 
@@ -126,8 +125,9 @@ class Admin extends Core\PluginComponent {
 				if ( isset( $_REQUEST['action'] ) && 'upload-attachment' === $_REQUEST['action'] ) {
 					// return existing media file
 					// stolen from wp-admin/async-upload.php
-					if ( ! $attachment = wp_prepare_attachment_for_js( $this->attachment_id ) )
+					if ( ! $attachment = wp_prepare_attachment_for_js( $this->attachment_id ) ) {
 						wp_die();
+					}
 					$attachment['duplicate_upload'] = true;
 					echo wp_json_encode( array(
 						'success' => true,
@@ -137,13 +137,13 @@ class Admin extends Core\PluginComponent {
 				} else {
 					// return error
 				}
-
 			}
 		} else {
 			add_action('add_attachment', array( $this,'add_attachment') );
 		}
 		return $file;
 	}
+
 	/**
 	 *	@action add_attachment
 	 */
@@ -164,9 +164,9 @@ class Admin extends Core\PluginComponent {
 	 *	@action admin_print_scripts
 	 */
 	public function enqueue_assets() {
-		wp_enqueue_script( 'unique-media-admin' , $this->core->get_asset_url( 'js/admin/wp-media.js' ) );
-		wp_localize_script('unique-media-admin' , 'unique_media_admin' , array(
-		) );
+		$core = Core\Core::instance();
+		wp_enqueue_script( 'unique-media-admin', $this->core->get_asset_url( 'js/admin/wp-media.js' ), [], $core->get_version() );
+		wp_localize_script('unique-media-admin', 'unique_media_admin', [] );
 	}
 
 	/**
@@ -178,11 +178,13 @@ class Admin extends Core\PluginComponent {
 	public function hash_attachment( $attachment_id ) {
 		$wp_error = new \WP_Error();
 		if ( ! $file = get_attached_file( $attachment_id ) ) {
+			/* translators: %d attachment ID */
 			$wp_error->add( self::ERROR, sprintf( __('No file attached to %d','wp-unique-media'), $attachment_id ) );
 			return $wp_error;
 		}
 		if ( ! file_exists( $file ) ) {
-			$wp_error->add( self::ERROR, sprintf( __('File %s of attachment %d does not exist','wp-unique-media'), $file, $attachment_id ) );
+			/* translators: 1: file path 2: attachment ID */
+			$wp_error->add( self::ERROR, sprintf( __('File %1$s of attachment %2$d does not exist','wp-unique-media'), $file, $attachment_id ) );
 			return $wp_error;
 		}
 
@@ -199,7 +201,8 @@ class Admin extends Core\PluginComponent {
 				$wp_error->add(
 					self::WARNING,
 					sprintf(
-						__('Attachment %d hashes differ from previous state. Hash (old:new) (%s:%s); Size (old:new) (%d:%d);', 'wp-unique-media' ),
+						/* translators: 1: attachment ID, 2+3: md5 hash, 4+5: file sizes in bytes */
+						__('Attachment %1$d hashes differ from previous state. Hash (old:new) (%2$s:%3$s); Size (old:new) (%$4d:%$5d);', 'wp-unique-media' ),
 						$attachment_id,
 						$prev_hash, $hash,
 						$prev_size, $size
@@ -210,6 +213,7 @@ class Admin extends Core\PluginComponent {
 			update_post_meta( $attachment_id, $this->hash_meta_key, $hash );
 			update_post_meta( $attachment_id, $this->size_meta_key, $size );
 		} else {
+			/* translators: %d attachment ID */
 			$wp_error->add( self::WARNING, sprintf( __('Attachment %d already hashed', 'wp-unique-media' ), $attachment_id ) );
 		}
 
@@ -228,11 +232,10 @@ class Admin extends Core\PluginComponent {
 	 */
 	public function get_unhashed_attachments() {
 		global $wpdb;
-		$sql = $wpdb->prepare("SELECT p.ID FROM $wpdb->posts AS p
+		$res = $wpdb->get_col( $wpdb->prepare("SELECT p.ID FROM $wpdb->posts AS p
 			   LEFT JOIN $wpdb->postmeta AS m
 				   ON p.ID = m.post_id AND m.meta_key=%s
-			   WHERE p.post_type=%s AND m.meta_id IS NULL", $this->hash_meta_key, 'attachment' );
-		$res = $wpdb->get_col( $sql );
+			   WHERE p.post_type=%s AND m.meta_id IS NULL", $this->hash_meta_key, 'attachment' ) );
 		return $res;
 	}
 

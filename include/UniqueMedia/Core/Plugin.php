@@ -90,9 +90,11 @@ class Plugin extends PluginComponent {
 	 *	@return string current plugin version
 	 */
 	public function get_version() {
-		return $this->get_plugin_meta( 'Version' );
+		if ( is_null( $this->_version ) ) {
+			$this->_version = include_once $this->get_plugin_dir() . '/include/version.php';
+		}
+		return $this->_version;
 	}
-
 	/**
 	 *	@param string $which Which plugin meta to get. NUll
 	 *	@return string|array plugin meta

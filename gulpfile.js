@@ -70,9 +70,14 @@ gulp.task('js', gulp.parallel( 'js:admin' ) );
 
 gulp.task('build', gulp.parallel('js') );
 
+
 gulp.task('watch', function() {
 	// place code for your default task here
 	//gulp.watch('./src/scss/**/*.scss',gulp.parallel( 'scss' ));
 	gulp.watch('./src/js/**/*.js',gulp.parallel( 'js' ) );
 });
+
+gulp.task('dev', gulp.parallel('watch') );
+
 gulp.task('default', gulp.parallel('build','watch'));
+
