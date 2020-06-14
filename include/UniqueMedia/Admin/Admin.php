@@ -42,6 +42,7 @@ class Admin extends Core\PluginComponent {
 		add_action( 'wp_enqueue_media', array( $this , 'enqueue_assets' ) );
 
 		add_filter( 'wp_handle_upload_prefilter', array( $this, 'upload_prefilter' ) );
+		add_filter( 'wp_handle_sideload_prefilter', array( $this, 'upload_prefilter' ) ); // #6
 
 		add_filter( 'attachment_fields_to_edit', array($this,'attachment_fields_to_edit'), 10, 2 );
 
