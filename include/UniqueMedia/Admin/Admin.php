@@ -135,7 +135,19 @@ class Admin extends Core\PluginComponent {
 					) );
 					exit();
 				} else {
-					// return error
+					// media upload admin page
+					$image = false;
+					
+					if ( function_exists( 'wp_get_original_image_path' ) ) {
+						$image = wp_get_original_image_path( $this->attachment_id );						
+					}
+					
+					if ( ! $image ) {
+						$image = get_attached_file( $this->attachment_id );						
+					}
+					
+					/* there is no way pass html in error message :( */
+					$file['error'] = sprintf( __( 'Duplicate file exist: ID %d - "%s"', 'wp-unique-media' ), $this->attachment_id, basename( $image ) );
 				}
 			}
 		} else {
