@@ -5,7 +5,7 @@ Plugin Name: WP Unique Media
 Plugin URI: https://github.com/mcguffin/wp-unique-media
 Description: Prevent duplicate files from being uploaded.
 Author: Jörn Lund
-Version: 0.1.0
+Version: 0.1.1
 Author URI: https://github.com/mcguffin
 License: GPL3
 Github Repository: mcguffin/wp-unique-media
