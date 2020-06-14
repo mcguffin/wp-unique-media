@@ -1,6 +1,6 @@
 {
   "name": "wp-unique-media",
-  "version": "0.0.5",
+  "version": "0.1.0",
   "description": "WordPress plugin to prevent duplicate files from being uploaded.",
   "private": true,
   "scripts": {
@@ -41,6 +41,7 @@
     ],
     "type": "plugin",
     "build": {
+      "versionedFiles": null,
       "prebuild": [
         "wp i18n make-pot . languages/wp-unique-media.pot --domain=wp-unique-media --exclude=tmp"
       ],
