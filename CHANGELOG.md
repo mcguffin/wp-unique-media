@@ -1,6 +1,10 @@
 WP Unique Media Changes
 =======================
 
+0.1.1
+-----
+ - Support REST Requests (Block Editor Uploads)
+
 0.1.0
 -----
  - Compatible with Enable Media Replace (props to @1ucay)

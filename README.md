@@ -51,6 +51,7 @@ $ wp unique-media-hash --attachment_id=123
 ToDo:
 -----
  - [ ] Test with [polylang](https://de.wordpress.org/plugins/polylang/) translate media option enabled
+ - [ ] Test with Block editor
  - [x] Test with non-js uploader
  - [x] Test with [enable media replace](https://de.wordpress.org/plugins/enable-media-replace/)
  - [ ] Remove autoupdater

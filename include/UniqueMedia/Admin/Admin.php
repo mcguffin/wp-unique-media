@@ -46,8 +46,30 @@ class Admin extends Core\PluginComponent {
 
 		add_filter( 'attachment_fields_to_edit', array($this,'attachment_fields_to_edit'), 10, 2 );
 		add_filter( 'update_attached_file', [ $this, 'update_attached_file' ], 10, 2 );
+
+		// Handle REST-Response if upload was denied
+		add_filter('rest_request_after_callbacks', [ $this, 'rest_request_after_callbacks' ], 10, 3 );
+
 		$this->handle_cron();
 
+	}
+
+	/**
+	 *	@filter rest_request_after_callbacks
+	 */
+	public function rest_request_after_callbacks( $response, $handler, $request ) {
+		
+		if ( '/wp/v2/media' === $request->get_route() && 'POST' === $request->get_method() && ! is_null( $this->attachment_id ) ) {
+
+			$controller = get_post_type_object( 'attachment' )->get_rest_controller();
+			$attachment = get_post( $this->attachment_id );
+			$response = $controller->prepare_item_for_response( $attachment, $request );
+			$response = rest_ensure_response( $response );
+			$response->set_status( 201 );
+			$response->header( 'Location', rest_url( sprintf( '%s/%d', $request->get_route(), $attachment_id ) ) );
+
+		}
+		return $response;
 	}
 
 	/**

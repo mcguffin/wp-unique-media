@@ -52,8 +52,12 @@ Core\Core::instance( __FILE__ );
 
 Cron\Cron::instance();
 
-if ( is_admin() || defined( 'DOING_AJAX' ) ) {
 
+add_action( 'rest_api_init', function() {
+	Admin\Admin::instance();
+} );
+
+if ( is_admin() || defined( 'DOING_AJAX' ) ) {
 
 	Admin\Admin::instance();
 
