@@ -1,13 +1,13 @@
 {
   "name": "wp-unique-media",
   "version": "0.0.5",
-  "description": "Plugin description",
+  "description": "WordPress plugin to prevent duplicate files from being uploaded.",
   "private": true,
   "scripts": {
     "dev": "gulp dev",
     "test": "node ./src/run/test.js",
     "dev-test": "./src/run/dev-test.sh",
-    "i18n": "wp i18n make-pot . languages/acf-openstreetmap-field.pot --domain=acf-openstreetmap-field --exclude=tmp/*",
+    "i18n": "wp i18n make-pot . languages/wp-unique-media.pot --domain=wp-unique-media --exclude=tmp/*",
     "rollback": "git reset --hard HEAD~ && git push origin +master",
     "postinstall": "composer install",
     "audit": "./vendor/squizlabs/php_codesniffer/bin/phpcs . --report=code --standard=./phpcs-security.ruleset.xml -n -s > ./phpcs-report.txt || exit 0",

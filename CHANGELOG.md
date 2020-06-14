@@ -1,6 +1,13 @@
 WP Unique Media Changes
 =======================
 
+0.1.0
+-----
+ - Compatible with Enable Media Replace (props to @1ucay)
+ - Hook into `update_attached_file` (props to @1ucay)
+ - Support Media Sideloads too (untested) (props to @1ucay)
+ - Security hardening
+
 0.0.5
 -----
  - Introduce constant `WPUM_DEBUG` (enables cronjob logging)

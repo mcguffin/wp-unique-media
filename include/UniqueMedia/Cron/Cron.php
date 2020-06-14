@@ -153,6 +153,7 @@ class Cron extends Core\PluginComponent {
 			$schedules = get_option('unique_media_cronschedules');
 			$schedules[ $schedule ] = array(
 				'interval'	=> $interval,
+				/* translators: number of seconds */
 				'display'	=> sprintf( __( 'Every %d seconds', 'wp-unique-media' ), $interval ),
 			);
 			update_option( 'unique_media_cronschedules', $schedules );
