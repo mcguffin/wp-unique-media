@@ -1,7 +1,7 @@
 === WP Unique Media ===
-Contributors: #### Your wordpress.org Username ####
+Contributors: podpirate
 Donate link: #### donate link ####
-Tags: #### donate link ####
+Tags: #### tags ####
 Requires at least: 3.8
 Requires PHP: 5.6
 Tested up to: 4.9
