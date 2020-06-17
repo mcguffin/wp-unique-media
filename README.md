@@ -5,7 +5,13 @@ WordPress plugin to prevent duplicate files from being uploaded.
 
 This is a shut-the-fork-up-and-work plugin. This means, if someone tries to upload a duplicate attachment to the media library, the existing file is silently getting selected.
 
-If you need a more verbose approach, please use [Media Deduper](https://de.wordpress.org/plugins/media-deduper/) by [Cornershop Creative](https://cornershopcreative.com/) instead. Both plugins use the same hashing and storage techniques, so either can be an alternative to the other.
+If you need a more verbose approach, please use [Media Deduper](https://wordpress.org/plugins/media-deduper/) by [Cornershop Creative](https://cornershopcreative.com/) instead. Both plugins use the same hashing and storage techniques, so either can be an alternative to the other.
+
+Tested with
+-----------
+ - [Enable Media Replace](https://wordpress.org/plugins/enable-media-replace/)
+ - [Regenerate Thumbnails](https://wordpress.org/plugins/regenerate-thumbnails/)
+ - Block Editor
 
 Installation
 ------------
@@ -48,13 +54,15 @@ $ wp unique-media-hash
 $ wp unique-media-hash --attachment_id=123
 ```
 
-ToDo:
------
- - [ ] Test with [polylang](https://de.wordpress.org/plugins/polylang/) translate media option enabled
- - [ ] Test with Block editor
- - [x] Test with non-js uploader
- - [x] Test with [enable media replace](https://de.wordpress.org/plugins/enable-media-replace/)
+Roadmap:
+-------
+0.2.0
  - [ ] Remove autoupdater
- - [x] PHPCS audit
- - [x] composer
+ - [ ] Test with [polylang](https://de.wordpress.org/plugins/polylang/) translate media option enabled
  - [ ] boilerplate 2
+
+0.3.0
+ - [ ] Tool: Replace Duplicates (in wp-content, blocks, widgets, acf image fields, acf gallery fields, known settings)
+
+1.0.0
+ - [ ] release at WP.org
