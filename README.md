@@ -53,7 +53,7 @@ $ wp unique-media-hash --attachment_id=123
 Roadmap:
 -------
 0.2.0
- - [ ] Remove autoupdater
+ - [x] Remove autoupdater
  - [ ] Test with [polylang](https://de.wordpress.org/plugins/polylang/) translate media option enabled
  - [ ] boilerplate 2
 
