@@ -29,6 +29,9 @@ use UniqueMedia\Core;
  */
 class Cron extends Core\PluginComponent {
 
+	/** @var array */
+	protected $jobs = [];
+
 	/**
 	 *	@param	string		$hook
 	 *	@param	callable	$callback
@@ -127,15 +130,18 @@ class Cron extends Core\PluginComponent {
 	 *	@return void
 	 */
 	private function init() {
-		$this->jobs = get_option( 'unique_media_cronjobs' );
+		$jobs = get_option( 'unique_media_cronjobs' );
 
-		foreach ( $this->jobs as $hook => $callbacks ) {
+		if ( is_array( $jobs ) ) {
+			foreach ( $jobs as $hook => $callbacks ) {
 
-			foreach ( array_unique( $callbacks ) as $key => $callback ) {
-				add_action( $hook, $callback );
+				foreach ( array_unique( $callbacks ) as $key => $callback ) {
+					add_action( $hook, $callback );
+				}
+				$this->jobs[ $hook ] = (array) $callbacks;
 			}
-			$this->jobs[ $hook ] = (array) $callbacks;
 		}
+
 		$this->update();
 	}
 

@@ -20,6 +20,9 @@ class Plugin extends PluginComponent {
 	/** @var string plugin main file */
 	private $plugin_file;
 
+	/** @var string plugin main file */
+	private $_version;
+
 	/** @var array metadata from plugin file */
 	private $plugin_meta;
 
@@ -170,7 +173,7 @@ class Plugin extends PluginComponent {
 			'success'	=> true,
 			'messages'	=> array(),
 		);
-
+		// TODO: remove that
 		foreach ( self::$components as $component ) {
 			$comp = $component::instance();
 			$upgrade_result = $comp->upgrade( $new_version, $old_version );

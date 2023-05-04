@@ -27,6 +27,8 @@ class Admin extends Core\PluginComponent {
 
 	private $last_hash = null;
 
+	private $last_size = null;
+
 	private $attachment_id = null;
 
 	private $cron_hook = 'unique_media_hash_attachments';

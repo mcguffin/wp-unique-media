@@ -14,14 +14,19 @@ if ( ! defined('ABSPATH') ) {
 class Job {
 
 	/**
+	 *	@var string
+	 */
+	private $hook;
+
+	/**
 	 *	@var callable
 	 */
 	private $callback;
 
 	/**
-	 *	@var string
+	 *	@var array
 	 */
-	private $hook;
+	private $args;
 
 	/**
 	 *	@var string
