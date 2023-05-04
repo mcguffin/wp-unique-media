@@ -14,6 +14,7 @@ Requires WP: 4.8
 Requires PHP: 5.6
 Text Domain: wp-unique-media
 Domain Path: /languages/
+Update URI: https://github.com/mcguffin/wp-unique-media/raw/master/.wp-release-info.json
 */
 
 /*  Copyright 2018 Jörn Lund
@@ -57,27 +58,31 @@ add_action( 'rest_api_init', function() {
 	Admin\Admin::instance();
 } );
 
+// add_filter('update_plugins_github.com', function( $update, $plugin_data, $plugin_file, $locales) {
+//
+// }, 10, 4 );
+
 if ( is_admin() || defined( 'DOING_AJAX' ) ) {
 
 	Admin\Admin::instance();
-
-	// don't WP-Update actual repos!
-	if ( ! file_exists( plugin_dir_path(__FILE__) . '/.git/' ) ) {
-
-		// not a git. Check if https://github.com/afragen/github-updater is active. (function is_plugin_active not available yet)
-		$active_plugins = get_option('active_plugins');
-		if ( $sitewide_plugins = get_site_option('active_sitewide_plugins') ) {
-			$active_plugins = array_merge( $active_plugins, array_keys( $sitewide_plugins ) );
-		}
-
-		if ( ! in_array( 'github-updater/github-updater.php', $active_plugins ) ) {
-			// not github updater. Init our our own...
-			AutoUpdate\AutoUpdateGithub::instance();
-		}
-	}
 
 }
 
 if ( defined( 'WP_CLI' ) && WP_CLI ) {
 	WPCLI\WPCLI::instance();
 }
+
+add_filter( 'update_plugins_github.com', function( $update, $plugin_data, $plugin_file, $locales ) {
+
+	if ( ! preg_match( "@{$plugin_file}$@", __FILE__ ) ) { // not our plugin
+		return $update;
+	}
+
+	$response = wp_remote_get( $plugin_data['UpdateURI'] );
+
+	if ( is_wp_error( $response ) || wp_remote_retrieve_response_code( $response ) > 200 ) { // response error
+		return $update;
+	}
+
+	return json_decode( wp_remote_retrieve_body( $response ), true, 512 );
+}, 10, 4 );

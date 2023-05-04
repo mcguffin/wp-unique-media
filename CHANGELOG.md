@@ -1,6 +1,11 @@
 WP Unique Media Changes
 =======================
 
+0.2.0
+-----
+ - Use WP for Auto-Updates
+ - Fix PHP 8.2 deprecation notices
+
 0.1.1
 -----
  - Support REST Requests (Block Editor Uploads)
