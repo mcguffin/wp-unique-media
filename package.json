@@ -45,7 +45,9 @@
       "prebuild": [
         "wp i18n make-pot . languages/wp-unique-media.pot --domain=wp-unique-media --exclude=tmp"
       ],
-      "build": []
+      "build": [
+        "npm run ver"
+      ]
     },
     "git": {
       "host": "github.com",

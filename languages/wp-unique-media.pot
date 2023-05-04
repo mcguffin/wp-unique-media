@@ -1,5 +1,5 @@
-# Copyright (C) 2020 Jörn Lund
-# This file is distributed under the same license as the WP Unique Media plugin.
+# Copyright (C) 2023 Jörn Lund
+# This file is distributed under the GPL3.
 msgid ""
 msgstr ""
 "Project-Id-Version: WP Unique Media 0.1.1\n"
@@ -9,9 +9,9 @@ msgstr ""
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"POT-Creation-Date: 2020-06-14T16:20:28+00:00\n"
+"POT-Creation-Date: 2023-05-04T16:04:05+00:00\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
-"X-Generator: WP-CLI 2.4.0\n"
+"X-Generator: WP-CLI 2.7.1\n"
 "X-Domain: wp-unique-media\n"
 
 #. Plugin Name of the plugin
@@ -34,57 +34,33 @@ msgstr ""
 msgid "https://github.com/mcguffin"
 msgstr ""
 
-#: include/UniqueMedia/Admin/Admin.php:105
+#: include/UniqueMedia/Admin/Admin.php:107
 msgid "Duplicates"
 msgstr ""
 
 #. translators: 1 Attachment ID, 2: filename
-#: include/UniqueMedia/Admin/Admin.php:204
+#: include/UniqueMedia/Admin/Admin.php:206
 msgid "Duplicate file exists: ID %1$d - \"%2$s\""
 msgstr ""
 
 #. translators: %d attachment ID
-#: include/UniqueMedia/Admin/Admin.php:260
+#: include/UniqueMedia/Admin/Admin.php:262
 msgid "No file attached to %d"
 msgstr ""
 
 #. translators: 1: file path 2: attachment ID
-#: include/UniqueMedia/Admin/Admin.php:265
+#: include/UniqueMedia/Admin/Admin.php:267
 msgid "File %1$s of attachment %2$d does not exist"
 msgstr ""
 
 #. translators: 1: attachment ID, 2+3: md5 hash, 4+5: file sizes in bytes
-#: include/UniqueMedia/Admin/Admin.php:283
+#: include/UniqueMedia/Admin/Admin.php:285
 msgid "Attachment %1$d hashes differ from previous state. Hash (old:new) (%2$s:%3$s); Size (old:new) (%$4d:%$5d);"
 msgstr ""
 
 #. translators: %d attachment ID
-#: include/UniqueMedia/Admin/Admin.php:295
+#: include/UniqueMedia/Admin/Admin.php:297
 msgid "Attachment %d already hashed"
-msgstr ""
-
-#: include/UniqueMedia/AutoUpdate/AutoUpdateGithub.php:64
-msgid "Releases"
-msgstr ""
-
-#: include/UniqueMedia/AutoUpdate/AutoUpdateGithub.php:66
-msgid "Wiki"
-msgstr ""
-
-#: include/UniqueMedia/AutoUpdate/AutoUpdateGithub.php:69
-msgid "Issues"
-msgstr ""
-
-#: include/UniqueMedia/AutoUpdate/AutoUpdateGithub.php:95
-msgid "Description"
-msgstr ""
-
-#: include/UniqueMedia/AutoUpdate/AutoUpdateGithub.php:99
-msgid "Links"
-msgstr ""
-
-#: include/UniqueMedia/AutoUpdate/AutoUpdateGithub.php:111
-msgid "Notes"
 msgstr ""
 
 #. translators: Attachment ID
@@ -93,6 +69,6 @@ msgid "Duplicate file exists: ID %1$d"
 msgstr ""
 
 #. translators: number of seconds
-#: include/UniqueMedia/Cron/Cron.php:157
+#: include/UniqueMedia/Cron/Cron.php:163
 msgid "Every %d seconds"
 msgstr ""
